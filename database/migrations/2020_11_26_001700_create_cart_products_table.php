@@ -32,8 +32,8 @@ class CreateCartProductsTable extends Migration
     public function down()
     {
         Schema::table('cart_products', function (Blueprint $table) {
-            $table->dropForeign(['products_id'])->references('id')->on('products');
-            $table->dropForeign(['carts_id'])->references('id')->on('carts');
+            $table->dropForeign(['products_id']);
+            $table->dropForeign(['carts_id']);
         });
         Schema::dropIfExists('cart_products');
     }
