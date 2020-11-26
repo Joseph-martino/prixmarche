@@ -30,7 +30,7 @@ class CreateCartsTable extends Migration
     public function down()
     {
         Schema::table('carts', function (Blueprint $table) {
-            $table->dropForeign(['users_id'])->references('id')->on('users');
+            $table->dropForeign(['users_id']);
         });
         Schema::dropIfExists('carts');
     }

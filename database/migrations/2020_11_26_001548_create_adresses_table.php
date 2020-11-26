@@ -33,7 +33,7 @@ class CreateAdressesTable extends Migration
     public function down()
     {
         Schema::table('adresses', function (Blueprint $table) {
-            $table->dropForeign(['users_id'])->references('id')->on('users');
+            $table->dropForeign(['users_id']);
         });
         Schema::dropIfExists('adresses');
     }
