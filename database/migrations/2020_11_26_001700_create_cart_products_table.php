@@ -15,7 +15,12 @@ class CreateCartProductsTable extends Migration
     {
         Schema::create('cart_products', function (Blueprint $table) {
             $table->id();
+            $table->integer('quantity');
             $table->timestamps();
+        });
+        Schema::table('cart_products', function (Blueprint $table) {
+            $table->foreignId('products_id')->references('id')->on('products');
+            $table->foreignId('carts_id')->references('id')->on('carts');
         });
     }
 
@@ -26,6 +31,10 @@ class CreateCartProductsTable extends Migration
      */
     public function down()
     {
+        Schema::table('cart_products', function (Blueprint $table) {
+            $table->dropForeign(['products_id'])->references('id')->on('products');
+            $table->dropForeign(['carts_id'])->references('id')->on('carts');
+        });
         Schema::dropIfExists('cart_products');
     }
 }

@@ -17,6 +17,9 @@ class CreateCartsTable extends Migration
             $table->id();
             $table->timestamps();
         });
+        Schema::table('carts', function (Blueprint $table) {
+            $table->foreignId('users_id')->references('id')->on('users');
+        });
     }
 
     /**
@@ -26,6 +29,9 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropForeign(['users_id'])->references('id')->on('users');
+        });
         Schema::dropIfExists('carts');
     }
 }

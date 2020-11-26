@@ -15,7 +15,14 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('price');
+            $table->string('picture');
+            $table->integer('quantity');
             $table->timestamps();
+        });
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreignId('categories_id')->references('id')->on('categories');
         });
     }
 
@@ -26,6 +33,9 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign(['categories_id'])->references('id')->on('categories');
+        });
         Schema::dropIfExists('products');
     }
 }
