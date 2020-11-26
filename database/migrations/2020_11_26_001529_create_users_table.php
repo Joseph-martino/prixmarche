@@ -18,8 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
-            $table->integer('phone');
-            $table->boolean('admmin');
+            $table->string('phone');
+            $table->boolean('admin');
             $table->string('password');
             $table->timestamps();
         });
