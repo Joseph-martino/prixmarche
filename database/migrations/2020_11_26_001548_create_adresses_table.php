@@ -15,7 +15,13 @@ class CreateAdressesTable extends Migration
     {
         Schema::create('adresses', function (Blueprint $table) {
             $table->id();
+            $table->string('adress');
+            $table->string('city');
+            $table->integer('zip_code');
             $table->timestamps();
+        });
+        Schema::table('adresses', function (Blueprint $table) {
+            $table->foreignId('users_id')->references('id')->on('users');
         });
     }
 
@@ -26,6 +32,9 @@ class CreateAdressesTable extends Migration
      */
     public function down()
     {
+        Schema::table('adresses', function (Blueprint $table) {
+            $table->dropForeign(['users_id'])->references('id')->on('users');
+        });
         Schema::dropIfExists('adresses');
     }
 }
