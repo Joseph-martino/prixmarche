@@ -14,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        echo 'index';
+        $products = Product::all();
+        return view("products", compact("products"));
     }
 
     /**
@@ -46,7 +47,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view("products.product", compact("product"));
+        return view("product", compact("product"));
     }
 
     /**

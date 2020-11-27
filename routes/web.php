@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/', function () {
+    return redirect('products');
+});
+
 Route::resources([
     'users' => 'UserController',
     'products' => 'ProductController',
