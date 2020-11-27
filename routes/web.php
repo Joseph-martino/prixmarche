@@ -25,3 +25,7 @@ Route::resources([
     'users' => 'UserController',
     'products' => 'ProductController',
 ]);
+Route::get('carts', "BasketController@show")->name('cart.show');
+Route::post('carts/add/{product}', "CartController@add")->name('cart.add');
+Route::get('carts/remove/{product}', "CartController@remove")->name('cart.remove');
+Route::get('carts/empty', "CartController@empty")->name('cart.empty');

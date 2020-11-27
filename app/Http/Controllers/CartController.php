@@ -3,83 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Product;
 use Illuminate\Http\Request;
+use App\Repositories\CartInterfaceRepository;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    protected $cartRepository; // L'instance CartSessionRepository
+
+    public function __construct (CartInterfaceRepository $cartRepository) {
+    	$this->cartRepository = $cartRepository;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    # Affichage du panier
+    public function show () {
+    	return view("cart.show"); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    # Ajout d'un produit au panier
+    public function add (Product $product, Request $request) {
+    	
+    	// Validation de la requête
+    	$this->validate($request, [
+    		"quantity" => "numeric|min:1"
+    	]);
+
+    	// Ajout/Mise à jour du produit au panier avec sa quantité
+    	$this->cartRepository->add($product, $request->quantity);
+
+    	// Redirection vers le panier avec un message
+    	return redirect()->route("cart.show")->withMessage("Produit ajouté au panier");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
+    // Suppression d'un produit du panier
+    public function remove (Product $product) {
+
+    	// Suppression du produit du panier par son identifiant
+    	$this->cartRepository->remove($product);
+
+    	// Redirection vers le panier
+    	return back()->withMessage("Produit retiré du panier");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
+    // Vider la panier
+    public function empty () {
+
+    	// Suppression des informations du panier en session
+    	$this->cartRepository->empty();
+
+    	// Redirection vers le panier
+    	return back()->withMessage("Panier vidé");
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cart $cart)
-    {
-        //
-    }
 }
